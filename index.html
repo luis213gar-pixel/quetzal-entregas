@@ -1,4 +1,24 @@
-<h1>Sistema de Entregas Quetzal</h1>
-<p>Luis, aquí empezaremos a registrar los pedidos del negocio.</p>
-<input type="text" placeholder="Nombre del cliente">
-<button>Guardar Pedido</button>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quetzal Entregas</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f0f8ff; }
+        .caja { border: 2px solid #007bff; padding: 20px; border-radius: 10px; background: white; }
+        button { background-color: #28a745; color: white; border: none; padding: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="caja">
+        <h1>Sistema de Entregas Quetzal</h1>
+        <p>Luis, ingresa los datos del nuevo pedido:</p>
+        
+        <input type="text" id="cliente" placeholder="Nombre del cliente"><br><br>
+        <input type="text" id="direccion" placeholder="Dirección de entrega"><br><br>
+        
+        <button onclick="alert('¡Pedido de ' + document.getElementById('cliente').value + ' guardado con éxito!')">
+            Guardar Pedido
+        </button>
+    </div>
+</body>
+</html>
