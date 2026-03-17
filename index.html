@@ -3,54 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quetzal Entregas</title>
+    <title>Quetzal Entregas 📦</title>
     <style>
-        body { font-family: sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; padding: 20px; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 350px; }
-        h2 { color: #2e7d32; text-align: center; margin-bottom: 20px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-        input, textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 12px; background-color: #25d366; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; }
-        button:hover { background-color: #128c7e; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #1a73e8; text-align: center; margin-bottom: 20px; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; }
+        label { font-weight: bold; display: block; margin-top: 10px; color: #555; }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .total-box { background: #e8f0fe; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; font-size: 1.2em; font-weight: bold; color: #1a73e8; }
+        button { width: 100%; padding: 15px; background: #25D366; color: white; border: none; font-weight: bold; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        button:hover { background: #128C7E; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>Quetzal 📦</h2>
+    <h2>Quetzal Entregas 📦</h2>
     
-    <label>Nombre del Cliente:</label>
-    <input type="text" id="nombre" placeholder="Ej. Juan Pérez">
+    <label>👤 Administrador:</label>
+    <select id="admin">
+        <option value="Luis García">Luis García</option>
+        <option value="Alex García">Alex García</option>
+        <option value="Emilia García">Emilia García</option>
+    </select>
 
-    <label>Dirección de Entrega:</label>
-    <textarea id="direccion" rows="3" placeholder="Ej. Calle 5, Zona 1..."></textarea>
+    <label>👤 Cliente:</label>
+    <input type="text" id="cliente" placeholder="Nombre del cliente">
 
-    <label>Precio del Producto ($):</label>
-    <input type="number" id="precio" placeholder="0.00">
+    <label>📍 Dirección:</label>
+    <input type="text" id="dir" placeholder="Dirección de entrega">
 
-    <label>Costo de Envío ($):</label>
-    <input type="number" id="envio" placeholder="0.00">
+    <label>💰 Precio Producto ($):</label>
+    <input type="number" id="precio" placeholder="0.00" oninput="calcular()">
 
-    <button onclick="enviarWhatsApp()">🚀 Enviar Pedido</button>
+    <label>🚚 Costo de Envío ($):</label>
+    <input type="number" id="envio" placeholder="0.00" oninput="calcular()">
+
+    <div class="total-box" id="totalDisplay">Total a Cobrar: $0.00</div>
+
+    <button onclick="enviarWhatsApp()">🚀 ENVIAR PEDIDO</button>
 </div>
 
 <script>
+    function calcular() {
+        let p = parseFloat(document.getElementById('precio').value) || 0;
+        let e = parseFloat(document.getElementById('envio').value) || 0;
+        document.getElementById('totalDisplay').innerText = "Total a Cobrar: $" + (p + e).toFixed(2);
+    }
+
     function enviarWhatsApp() {
-        const nombre = document.getElementById('nombre').value;
-        const direccion = document.getElementById('direccion').value;
-        const precio = parseFloat(document.getElementById('precio').value) || 0;
-        const envio = parseFloat(document.getElementById('envio').value) || 0;
-        const total = precio + envio;
+        let admin = document.getElementById('admin').value;
+        let cliente = document.getElementById('cliente').value;
+        let dir = document.getElementById('dir').value;
+        let p = parseFloat(document.getElementById('precio').value) || 0;
+        let e = parseFloat(document.getElementById('envio').value) || 0;
+        let total = (p + e).toFixed(2);
+        let fecha = new Date().toLocaleString();
 
-        const mensaje = *QUETZAL ENTREGAS*%0A%0A +
-                        *Cliente:* ${nombre}%0A +
-                        *Dirección:* ${direccion}%0A +
-                        *Precio:* $${precio}%0A +
-                        *Envío:* $${envio}%0A +
-                        *TOTAL A COBRAR:* $${total.toFixed(2)};
+        let mensaje = "QUETZAL ENTREGAS 📦%0A" +
+                      "------------------------------%0A" +
+                      "Atendido por: " + admin + "%0A" +
+                      "Fecha: " + fecha + "%0A" +
+                      "------------------------------%0A" +
+                      "Cliente: " + cliente + "%0A" +
+                      "Dirección: " + dir + "%0A" +
+                      "Precio: $" + p.toFixed(2) + "%0A" +
+                      "Envío: $" + e.toFixed(2) + "%0A" +
+                      "------------------------------%0A" +
+                      "TOTAL A PAGAR: $" + total + "%0A" +
+                      "------------------------------%0A" +
+                      "¡Gracias por su preferencia!";
 
-        const url = https://wa.me/?text=${mensaje};
-        window.open(url, '_blank');
+        window.location.href = "https://wa.me/?text=" + mensaje;
     }
 </script>
 
